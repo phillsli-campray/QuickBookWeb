@@ -16,7 +16,8 @@ namespace QuickBookWeb.Controllers
         {
             try
             {
-                var qbService = new QuickBooksService();
+                //var qbService = new QuickBooksService();
+                var qbService = new QuickBooksSDKService();
                 List<QBCustomerIdentifiers>  ids = qbService.GetCustomerIds();
                 return Json(ids);
             }
@@ -32,14 +33,15 @@ namespace QuickBookWeb.Controllers
             try
             {
                 string value = Request.Content.ReadAsStringAsync().Result;
-                QBCustomer customer = JsonConvert.DeserializeObject<QBCustomer>(value);               
-                var qbService = new QuickBooksService();
-                customer=qbService.AddCustomer(customer);
+                QBCustomer customer = JsonConvert.DeserializeObject<QBCustomer>(value);
+                //var qbService = new QuickBooksService();
+                var qbService = new QuickBooksSDKService();
+                customer =qbService.AddCustomer(customer);
                 return Json(customer);
             }
             catch(Exception exe)
             {
-                return BadRequest(exe.Message);                
+                return BadRequest(exe.Message);          
             }
         }
 
@@ -52,7 +54,8 @@ namespace QuickBookWeb.Controllers
                 QBInvoice invoice = JsonConvert.DeserializeObject<QBInvoice>(value);
                 QBCustomer customer = new QBCustomer();
                 customer.AccountNumber = id;
-                var qbService = new QuickBooksService();
+                //var qbService = new QuickBooksService();
+                var qbService = new QuickBooksSDKService();
                 invoice = qbService.AddInvoice(invoice, customer);
                 return Json(invoice);
             }
